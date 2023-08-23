@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
-using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -16,8 +14,6 @@ namespace TestMod
             {
                 var foundQuestionDialogue = false;
                 var startIndex = -1;
-
-                Label idkWhatThisIsYet = il.DefineLabel();
 
                 var codes = new List<CodeInstruction>(instructions);
                 for (var i = 0; i < codes.Count; i++)
@@ -48,7 +44,6 @@ namespace TestMod
                                 if (operand?.ToString() == "Void createQuestionDialogue(System.String, StardewValley.Response[], System.String)")
                                 {
                                     foundQuestionDialogue = true;
-                                    codes[j].labels.Add(idkWhatThisIsYet);
                                     break;
                                 }
                             }
