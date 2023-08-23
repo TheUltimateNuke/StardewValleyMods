@@ -2,9 +2,9 @@
 	"Name": "No Exit Mine Confirmation Dialogue",
 	"Author": "The_UltimateNuke",
 	"Version": "1.0.0",
-	"Description": "Test mod",
+	"Description": "Removes mine exit dialog",
 	"UniqueID": "theultimatenuke.testmod",
-	"EntryDll": "TestMod.dll",
+	"EntryDll": "NoExitMineConfirmation.dll",
 	"MinimumApiVersion": "3.0.0",
 	"UpdateKeys": []
 }

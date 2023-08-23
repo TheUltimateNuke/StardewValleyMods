@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using StardewValley;
+using StardewValley.Locations;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -57,7 +59,7 @@ namespace TestMod
                     ModEntry.modMonitor.VerboseLog("found question dialogue! Nop-ing..");
                     codes[startIndex].opcode = OpCodes.Nop;
                     codes.RemoveRange(startIndex - 4, 4);
-                    ModEntry.modMonitor.VerboseLog("Patching new code in..");
+                    ModEntry.modMonitor.VerboseLog("Patching new code into " + nameof(MineShaft.checkAction) + "..");
 
                     var instructionsToInsert = new List<CodeInstruction>();
                     codes.Insert(startIndex - 4, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaft_Patch), nameof(MineShaft_Patch.WarpFarmerOutOfMine)))); 
@@ -67,7 +69,26 @@ namespace TestMod
 
             public static void WarpFarmerOutOfMine()
             {
-                Game1.warpFarmer("Mine", 23, 8, 1);
+                if (Game1.currentLocation.Name.StartsWith("UndergroundMine"))
+                {
+                    MineShaft curMineShaft = Game1.currentLocation as MineShaft;
+                    if (curMineShaft != null)
+                    {
+                        if (curMineShaft?.mineLevel > 121 && curMineShaft?.mineLevel < 77377)
+                        {
+                            Game1.warpFarmer("SkullCave", 0, 0, flip: true); //TODO: Find skullcave tilemap and position this.
+                        }
+                        else if (curMineShaft?.mineLevel == 77377)
+                        {
+                            Game1.warpFarmer("Mine", 68, 10, 1);
+                        }
+                        else
+                        {
+                            Game1.warpFarmer("Mine", 23, 8, 2);
+                        }
+                    }
+                }
+
                 Game1.currentLocation.playSound("stairsdown");
             }
         }
