@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using System;
@@ -69,23 +70,19 @@ namespace TestMod
 
             public static void WarpFarmerOutOfMine()
             {
-                if (Game1.currentLocation.Name.StartsWith("UndergroundMine"))
+                if (Game1.currentLocation is MineShaft curMineShaft)
                 {
-                    MineShaft curMineShaft = Game1.currentLocation as MineShaft;
-                    if (curMineShaft != null)
+                    if (curMineShaft?.mineLevel >= 121 && curMineShaft?.mineLevel < 77377)
                     {
-                        if (curMineShaft?.mineLevel > 121 && curMineShaft?.mineLevel < 77377)
-                        {
-                            Game1.warpFarmer("SkullCave", 0, 0, flip: true); //TODO: Find skullcave tilemap and position this.
-                        }
-                        else if (curMineShaft?.mineLevel == 77377)
-                        {
-                            Game1.warpFarmer("Mine", 68, 10, 1);
-                        }
-                        else
-                        {
-                            Game1.warpFarmer("Mine", 23, 8, 2);
-                        }
+                        Game1.warpFarmer("SkullCave", 3, 4, flip: true);
+                    }
+                    else if (curMineShaft?.mineLevel == 77377)
+                    {
+                        Game1.warpFarmer("Mine", 67, 10, flip: true);
+                    }
+                    else
+                    {
+                        Game1.warpFarmer("Mine", 23, 8, flip: true);
                     }
                 }
 
